@@ -30,6 +30,12 @@
 		.form-control{
 			margin-bottom: 5px;
 		}
+		.selecionado {
+			background-color: yellow;
+		}
+		.negrito {
+			font-weight: bold;
+		}
 	</style>
 	<script>
 			angular.module("listaTelefonica", []);
@@ -53,6 +59,7 @@
 						$scope.contatos.push(angular.copy(contato));
 						delete $scope.contato;	
 					};
+
 			});
 	</script>
 </head>
@@ -62,11 +69,13 @@
 			<h3>{{app}}</h3>
 			<table class="table table-striped">
 				<tr>
+						<th></th>
 						<th><h4>Nome</h4></th>
 						<th><h4>Telefone</h4></th>
 						<th><h4>Operadora</h4></th>
 				</tr>
-				<tr ng-repeat="contato in contatos">
+				<tr ng-class="" ng-repeat="contato in contatos">
+						<td><input type="checkbox" ng-model="contato.selecionado"/></td>
 						<td>{{contato.nome}}</td>
 						<td>{{contato.telefone}}</td>
 						<td>{{contato.operadora.nome}}</td>
@@ -75,10 +84,10 @@
 
 			</table>
 			<hr/>
-			{{contato}}
+			{{contatos}}
 			<input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome">
 			<input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone">
-			<select ng-disabled="!contato.nome || !contato.telefone" class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras"> 
+			<select ng-disabled="!contato.nome || !contato.telefone" class="form-control" ng-model="contato.operadora" ng-options="operadora.nome for operadora in operadoras"> 
 				<option value="">Selecione uma operadora</option>	
 			</select>
 			<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button>
