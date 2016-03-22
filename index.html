@@ -60,6 +60,19 @@
 						delete $scope.contato;	
 					};
 
+					$scope.apagarContatos = function (contatos) {
+						$scope.contatos = contatos.filter(function (contato){
+							if (!contato.selecionado) return contato;
+						});
+					};
+					$scope.isContatoSelecionado = function (contatos){
+						var isContatoSelecionado = contatos.some(function (contato){
+							return contato.selecionado;
+						});
+						console.log(isContatoSelecionado);
+					};
+
+
 			});
 	</script>
 </head>
@@ -67,30 +80,30 @@
 	<div class="jumbotron"> 
 		
 			<h3>{{app}}</h3>
-			<table class="table table-striped">
+			<table class="table">
 				<tr>
 						<th></th>
 						<th><h4>Nome</h4></th>
 						<th><h4>Telefone</h4></th>
 						<th><h4>Operadora</h4></th>
 				</tr>
-				<tr ng-class="" ng-repeat="contato in contatos">
+				<tr ng-class="{'selecionado negrito': contato.selecionado}" ng-repeat="contato in contatos">
 						<td><input type="checkbox" ng-model="contato.selecionado"/></td>
 						<td>{{contato.nome}}</td>
 						<td>{{contato.telefone}}</td>
 						<td>{{contato.operadora.nome}}</td>
-						
 				</tr>
 
 			</table>
 			<hr/>
-			{{contatos}}
+			{{contatos}} 
 			<input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome">
 			<input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone">
 			<select ng-disabled="!contato.nome || !contato.telefone" class="form-control" ng-model="contato.operadora" ng-options="operadora.nome for operadora in operadoras"> 
 				<option value="">Selecione uma operadora</option>	
 			</select>
 			<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button>
+			<button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-disable="isContatoSelecionado(contatos)">Apagar Contatos</button>
 			
 		
 	</div>
